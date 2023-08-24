@@ -24,3 +24,11 @@
 .green {
     background-color: #769656;
 }
+
+.black {
+    fill: black;
+}
+
+.light {
+    fill: rgb(250, 121, 0);
+}

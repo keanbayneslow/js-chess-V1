@@ -14,7 +14,7 @@ const startPieces = [
     '', '', '', '', '', '', '', '',
     '', '', '', '', '', '', '', '',
     pawn, pawn, pawn, pawn, pawn, pawn, pawn, pawn,
-    rook, knight, bishop, king, queen, bishop, knight, rook
+    rook, knight, bishop, queen, king, bishop, knight, rook
 ]
 
 function createBoard() {
@@ -28,6 +28,14 @@ function createBoard() {
             square.classList.add(i % 2 === 0 ? "beige" : "green")
         } else {
             square.classList.add(i % 2 === 0 ? "green" : "beige")
+        }
+
+        if (i <= 15) {
+            square.firstChild.firstChild.classList.add('black')
+        }
+
+        if (i >= 48) {
+            square.firstChild.firstChild.classList.add('light')
         }
 
         gameBoard.append(square)
