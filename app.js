@@ -71,18 +71,54 @@ function dragOver(e) {
 function dragDrop(e) {
     e.stopPropagation();
 
+    const correctGo = draggedElement.firstChild.classList.contains(playerGo)
+
     const taken = e.target.classList.contains('piece')
 
-    if (e.target.classList.contains('square')) {
-        e.target.append(draggedElement);
+    const valid = checkIfValid(e.target)
+
+    const opponentGo = playerGo === 'light' ? 'black' : ' light'
+
+    const takenByOpponent = e.target.firstChild?.classList.contains(opponentGo)
+
+    if (correctGo) {
+        if (takenByOpponent && valid) {
+            e.target.parentNode.append(draggedElement)
+            e.target.remove()
+            changePlayer()
+            return
+        }
+        
+        if  (taken && !takenByOpponent) {
+            infoDisplay.textContent = "You can't move here!"
+            setTimeout(() => infoDisplay.textContent = "", 3000)
+            return
+        }
+        
+        if (valid) {
+            e.target.append(draggedElement)
+            changePlayer()
+        }
     }
 
-    allSquares.forEach(square => {
-        square.removeAttribute('draggable');
-    }); 
+    
 
     changePlayer()
 }    
+
+function checkIfValid(target) {
+    const targetId = Number(target.getAttribute('square-id')) || Number(target.parentNode.getAttribute('square-id'))
+    const startId = Number(startPositionId)
+    const piece = draggedElement.id
+
+    switch(piece) {
+        case 'pawn' :
+            const starterRow = [8, 9, 10, 11, 12, 13, 14, 15]
+            if (starterRow.includes(startId) && startId + width * 2 === targetId ||
+            startId + width === targetId)
+            return true
+            }
+}
 
 function changePlayer() {
     if (playerGo === 'black') {
